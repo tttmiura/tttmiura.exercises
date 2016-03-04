@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="ja">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>TEST</title>
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+		<link rel="stylesheet" href="public/css/reveal.css">
+		<link rel="stylesheet" href="public/css/theme/solarized.css" id="theme">
+
+		<!-- Code syntax highlighting -->
+		<link rel="stylesheet" href="public/lib/css/zenburn.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'public/css/print/pdf.css' : 'public/css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+				<section id="section1">
+					<h1>TEST</h1>
+					<h3>通知のてすと</h3>
+				</section>
+
+				<section>
+					<h1>TEST</h1>
+					<h3>その他</h3>
+				</section>
+			</div>
+
+		</div>
+
+		<script src="public/lib/js/head.min.js"></script>
+		<script src="public/js/reveal.js"></script>
+
+		<script>
+			"use strict";
+			Reveal.initialize({
+				keyboard: {
+					82: function(e) { location.href='https://www.googledrive.com/host/0B8T4L8j_pnG0Y2dXUzh1d3pNcFk'},
+					13: 'next',
+					78: 'next',
+					80: 'prev'
+				},
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+				// Optional reveal.js plugins
+				dependencies: [
+					{ src: 'public/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'public/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'public/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'public/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'public/plugin/zoom-js/zoom.js', async: true },
+					{ src: 'public/plugin/notes/notes.js', async: true }
+				]
+			});
+
+
+			if (("Notification" in window)) {
+				if (Notification.permission === "granted") {
+					setNotificationTimer();
+				} else if (Notification.permission !== "denied") {
+					Notification.requestPermission().then(function (permission) {
+						if (permission === "granted") {
+							setNotificationTimer();
+						} else {
+							addWarn();
+						}
+					});
+				} else {
+					addWarn();
+				}
+			} else {
+				addWarn();
+			}
+
+			function addWarn() {
+				let sec1 = document.getElementById("section1");
+				let msg = document.createElement( 'p' );
+				msg.innerHTML = "だめなやーつ";
+				sec1.appendChild(msg)
+				console.log(msg);
+			}
+
+			function setNotificationTimer() {
+				var notificationCount = 0;
+				setInterval(function() {
+					notice(++notificationCount);
+				}, 10000);
+				console.log("せっとー");
+			}
+
+			function notice(count) {
+				var options = {
+					body: count + '分経過',
+					tag:'timer',
+					icon: './public/pc_profAni03.gif'
+				};
+				var timerNotice = new Notification("経過時間通知", options);
+				setTimeout(function() {
+					timerNotice.close();
+				}, 5000);
+			}
+		</script>
+
+	</body>
+</html>
