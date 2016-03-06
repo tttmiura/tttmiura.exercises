@@ -4,7 +4,7 @@
 	<head>
 		<meta charset="utf-8">
 
-		<title>TEST</title>
+		<title>HTML5いろいろ</title>
 
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
 
@@ -34,14 +34,32 @@
 
 			<!-- Any section element inside of this container is displayed as a slide -->
 			<div class="slides">
-				<section id="section1">
-					<h1>TEST</h1>
-					<h3>通知のてすと</h3>
+				<section id="sectionTitle">
+					<h1>HTML5のいろいろを触ってみる</h1>
 				</section>
-
+				<section id="sectionMenu">
+					<h3>目次</h3>
+					<ul>
+						<li><a href='#' onClick='Reveal.slide(2); return false;'>Notifications API</a></li>
+						<li><a href='#' onClick='Reveal.slide(3); return false;'>Web Worker</a></li>
+					</ul>
+				</section>
+				<section id="sectionNotification">
+					<section id="sectionNotification1">
+						<h3>Notifications API</h3>
+						<p>ユーザーへのデスクトップ通知の設定や表示のためのもの</p>
+						<p>Slack等でも使っているやつ</p>
+						<a href="https://developer.mozilla.org/ja/docs/Web/API/Notification">気になる人のための参考リンク</a>
+					</section>
+					<section id="sectionNotification2">
+						<a href='#' onClick='testNotification(); return false;'>通知てすと</a>
+					</section>
+				</section>
 				<section>
-					<h1>TEST</h1>
-					<h3>その他</h3>
+					<section>
+						<h3>Web Worker</h3>
+						<a href='https://developer.mozilla.org/ja/docs/Web/Guide/Performance/Using_web_workers'>Web Worker</a>
+					</section>
 				</section>
 			</div>
 
@@ -54,17 +72,21 @@
 			"use strict";
 			Reveal.initialize({
 				keyboard: {
-					82: function(e) { location.href='https://www.googledrive.com/host/0B8T4L8j_pnG0Y2dXUzh1d3pNcFk'},
+					82: function(e) { location.href='http://tttmiura.github.io/tttmiura.exercises'},
 					13: 'next',
+					68: 'down',
 					78: 'next',
-					80: 'prev'
+					80: 'prev',
+					85: 'up'
 				},
 				controls: true,
 				progress: true,
-				history: true,
+				history: false,
 				center: true,
 
-				transition: 'slide', // none/fade/slide/convex/concave/zoom
+				transition: 'cube', // none/fade/slide/convex/concave/zoom
+
+				rollingLinks: true,
 
 				// Optional reveal.js plugins
 				dependencies: [
@@ -76,7 +98,6 @@
 					{ src: 'public/plugin/notes/notes.js', async: true }
 				]
 			});
-
 
 			if (("Notification" in window)) {
 				if (Notification.permission === "granted") {
@@ -97,7 +118,7 @@
 			}
 
 			function addWarn() {
-				let sec1 = document.getElementById("section1");
+				let sec1 = document.getElementById("sectionNotification2");
 				let msg = document.createElement( 'p' );
 				msg.innerHTML = "だめなやーつ";
 				sec1.appendChild(msg)
@@ -107,18 +128,29 @@
 			function setNotificationTimer() {
 				var notificationCount = 0;
 				setInterval(function() {
-					notice(++notificationCount);
-				}, 10000);
+					timeNotice(++notificationCount);
+				}, 60000);
 				console.log("せっとー");
 			}
 
-			function notice(count) {
+			function timeNotice(count) {
 				var options = {
 					body: count + '分経過',
 					tag:'timer',
 					icon: './public/pc_profAni03.gif'
 				};
 				var timerNotice = new Notification("経過時間通知", options);
+				setTimeout(function() {
+					timerNotice.close();
+				}, 5000);
+			}
+			function testNotification(count) {
+				var options = {
+					body: '<div><p>テスト</p></div>',
+					tag:'test',
+					icon: './public/pc_profAni03.gif'
+				};
+				var timerNotice = new Notification("テスト通知", options);
 				setTimeout(function() {
 					timerNotice.close();
 				}, 5000);
