@@ -4,6 +4,8 @@ onmessage = function(e) {
 		var toDate = new Date();
 		var time =  toDate.getTime() - fromDate.getTime();
 		postMessage(time);
-		sleep(1000);
+		if(time > 10000) {
+			break;
+		}
 	}
 }
