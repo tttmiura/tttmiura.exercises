@@ -54,11 +54,59 @@
 					<section id="sectionNotification2">
 						<a href='#' onClick='testNotification(); return false;'>通知てすと</a>
 					</section>
+					<section id="sectionNotification3">
+						<h3>サンプルコード</h3>
+						<pre>
+							<code>
+var options = {
+	body: 'テスト',
+	dir: 'rtl',
+	icon: './public/pc_profAni03.gif'
+};
+var timerNotice = new Notification("テスト通知", options);
+setTimeout(function() {
+timerNotice.close();
+}, 5000);
+							</code>
+						</pre>
+					</section>
+					<section id="sectionNotification4">
+						<h3>事前に・・・</h3>
+						<pre>
+							<code>
+if (("Notification" in window)) { // Notificationに対応しているかどうか
+	if (Notification.permission === "granted") { // 通知が許可されているか？
+		// 許可されていた場合、通知の処理
+	} else if (Notification.permission !== "denied") { // 許可されていないけれど拒否もされていない場合
+		Notification.requestPermission().then(function (permission) { // 通知の許可を求める
+			if (permission === "granted") {
+				// 許可されていた場合、通知の処理
+			}
+		});
+	}
+}
+							</code>
+						</pre>
+					</section>
+					<section id="sectionNotification5">
+						<h3>通知にイベントも仕込める</h3>
+						<a href='#' onClick='testEventNotification(); return false;'>Clickイベント通知てすと</a>
+					</section>
 				</section>
-				<section>
-					<section>
+				<section id='sectionWebWorker'>
+					<section id='sectionWebWorker1'>
 						<h3>Web Worker</h3>
-						<a href='https://developer.mozilla.org/ja/docs/Web/Guide/Performance/Using_web_workers'>Web Worker</a>
+						<p>バックグラウンドのスレッドで実行するためのシンプルな手段　だそうです</p>
+						<a href='https://developer.mozilla.org/ja/docs/Web/Guide/Performance/Using_web_workers'>気になる人のための参考リンク</a>
+					</section>
+					<section id='sectionWebWorker2'>
+						<h3>サンプルコード</h3>
+						<a href='#' onClick='testWebWorker(); return false;'>てすと</a>
+						<pre>
+							<code>
+							</code>
+						</pre>
+						<input type="text" id="testWebWorkerText" readonly/>
 					</section>
 				</section>
 			</div>
@@ -77,6 +125,7 @@
 					68: 'down',
 					78: 'next',
 					80: 'prev',
+					83: function(e) { startTimer(); },
 					85: 'up'
 				},
 				controls: true,
@@ -99,22 +148,24 @@
 				]
 			});
 
-			if (("Notification" in window)) {
-				if (Notification.permission === "granted") {
-					setNotificationTimer();
-				} else if (Notification.permission !== "denied") {
-					Notification.requestPermission().then(function (permission) {
-						if (permission === "granted") {
-							setNotificationTimer();
-						} else {
-							addWarn();
-						}
-					});
+			function startTimer() {
+				if (("Notification" in window)) {
+					if (Notification.permission === "granted") {
+						setNotificationTimer();
+					} else if (Notification.permission !== "denied") {
+						Notification.requestPermission().then(function (permission) {
+							if (permission === "granted") {
+								setNotificationTimer();
+							} else {
+								addWarn();
+							}
+						});
+					} else {
+						addWarn();
+					}
 				} else {
 					addWarn();
 				}
-			} else {
-				addWarn();
 			}
 
 			function addWarn() {
@@ -122,7 +173,6 @@
 				let msg = document.createElement( 'p' );
 				msg.innerHTML = "だめなやーつ";
 				sec1.appendChild(msg)
-				console.log(msg);
 			}
 
 			function setNotificationTimer() {
@@ -144,16 +194,43 @@
 					timerNotice.close();
 				}, 5000);
 			}
-			function testNotification(count) {
+			function testNotification() {
 				var options = {
-					body: '<div><p>テスト</p></div>',
-					tag:'test',
+					body: 'テスト',
+					dir: 'rtl',
 					icon: './public/pc_profAni03.gif'
 				};
-				var timerNotice = new Notification("テスト通知", options);
+				var testNotice = new Notification("テスト通知", options);
 				setTimeout(function() {
-					timerNotice.close();
+					testNotice.close();
 				}, 5000);
+			}
+			function testEventNotification() {
+				var options = {
+					body: 'Clickテスト',
+					dir: 'ltr',
+					tag:'event',
+					icon: './public/pc_profAni03.gif'
+				};
+				var testEventNotice = new Notification("Clickテスト", options);
+				testEventNotice.onclick = function() {
+					testEventNotice.close();
+					Reveal.slide(2);
+				};
+			}
+			function testWebWorker() {
+				if (window.Worker) {
+					var testWorker = new Worker("public/js/worker1.js");
+					testWorker.onmessage = function(e) {
+						var inpText = document.getElementById("testWebWorkerText");
+						inpText.value = e.data;
+					};
+				} else {
+					let sec1 = document.getElementById("sectionWebWorker2");
+					let msg = document.createElement( 'p' );
+					msg.innerHTML = "だめなやーつ";
+					sec1.appendChild(msg)
+				}
 			}
 		</script>
 
