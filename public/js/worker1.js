@@ -2,7 +2,8 @@ onmessage = function(e) {
 	var fromDate = new Date();
 	while(true) {
 		var toDate = new Date();
-		var time = fromDate.getTime() - toDate.getTime();
+		var time =  toDate.getTime() - fromDate.getTime();
 		postMessage(time);
+		sleep(1000);
 	}
 }
