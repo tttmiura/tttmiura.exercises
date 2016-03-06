@@ -1,10 +1,8 @@
 onmessage = function(e) {
-	var fromDate = new Date();
+	var count = 0;
 	while(true) {
-		var toDate = new Date();
-		var time =  toDate.getTime() - fromDate.getTime();
-		postMessage(time);
-		if(time > 10000) {
+		postMessage(count++);
+		if(count > 50000) {
 			break;
 		}
 	}

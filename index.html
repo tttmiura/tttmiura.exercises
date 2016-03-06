@@ -225,8 +225,8 @@ if (("Notification" in window)) { // Notificationに対応しているかどう�
 				} else {
 					if (window.Worker) {
 						testWorker = new Worker("public/js/worker1.js");
+						var inpText = document.getElementById("testWebWorkerText");
 						testWorker.onmessage = function(e) {
-							var inpText = document.getElementById("testWebWorkerText");
 							inpText.value = e.data;
 						};
 						testWorker.postMessage('てきとー');
