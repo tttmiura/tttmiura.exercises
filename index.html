@@ -100,13 +100,48 @@ if (("Notification" in window)) { // Notificationに対応しているかどう�
 						<a href='https://developer.mozilla.org/ja/docs/Web/Guide/Performance/Using_web_workers'>気になる人のための参考リンク</a>
 					</section>
 					<section id='sectionWebWorker2'>
-						<h3>サンプルコード</h3>
+						<h3>てすと</h3>
 						<a href='#' onClick='testWebWorker(); return false;'>てすと</a>
+						<input type="text" id="testWebWorkerText" readonly/>
+					</section>
+					<section id='sectionWebWorker3'>
+						<h3>サンプルコード</h3>
+						<p>メインスレッドコード</p>
 						<pre>
 							<code>
+if (window.Worker) {
+	testWorker = new Worker("public/js/worker1.js");
+	var inpText = document.getElementById("testWebWorkerText");
+	testWorker.onmessage = function(e) {
+		inpText.value = e.data;
+	};
+	testWorker.postMessage('てきとー');
+}
 							</code>
 						</pre>
-						<input type="text" id="testWebWorkerText" readonly/>
+						<p>Workerコード</p>
+						<pre>
+							<code>
+onmessage = function(e) {
+	var baseTime = new Date().getTime();
+	var count = 0;
+	while(true) {
+		var currentTime = new Date().getTime();
+		var tmpTime = new Date().getTime();
+		while((tmpTime - currentTime) < 1000) {
+		}
+		var dif = currentTime - baseTime;
+		postMessage(dif);
+		if(dif > 1000000) {
+			break;
+		}
+	}
+}
+							</code>
+						</pre>
+					</section>
+					<section id='sectionWebWorker4'>
+						<h3>力尽きた</h3>
 					</section>
 				</section>
 			</div>
@@ -222,7 +257,7 @@ if (("Notification" in window)) { // Notificationに対応しているかどう�
 			function testWebWorker() {
 				if(testWorker != null) {
 					testWorker.terminate();
-					testWorker == null;
+					testWorker = null;
 				} else {
 					if (window.Worker) {
 						testWorker = new Worker("public/js/worker1.js");
