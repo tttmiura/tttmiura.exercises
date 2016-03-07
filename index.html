@@ -120,13 +120,13 @@ if (("Notification" in window)) { // Notificationに対応しているかどう�
 			"use strict";
 			Reveal.initialize({
 				keyboard: {
-					82: function(e) { location.href='http://tttmiura.github.io/tttmiura.exercises'},
-					13: 'next',
-					68: 'down',
-					78: 'next',
-					80: 'prev',
-					83: function(e) { startTimer(); },
-					85: 'up'
+					82: function(e) { location.href='http://tttmiura.github.io/tttmiura.exercises'; }, // r
+					13: 'next', // Enter
+					68: 'down', // d
+					78: 'next', // n
+					80: 'prev', // p
+					84: function(e) { startTimer(); }, // t
+					85: 'up' // u
 				},
 				controls: true,
 				progress: true,
@@ -222,6 +222,7 @@ if (("Notification" in window)) { // Notificationに対応しているかどう�
 			function testWebWorker() {
 				if(testWorker != null) {
 					testWorker.terminate();
+					testWorker == null;
 				} else {
 					if (window.Worker) {
 						testWorker = new Worker("public/js/worker1.js");
