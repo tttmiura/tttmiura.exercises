@@ -5,6 +5,7 @@ onmessage = function(e) {
 		var currentTime = new Date().getTime();
 		var tmpTime = new Date().getTime();
 		while((tmpTime - currentTime) < 1000) {
+			tmpTime = new Date().getTime();
 		}
 		var dif = currentTime - baseTime;
 		postMessage(dif);
