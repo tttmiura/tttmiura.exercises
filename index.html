@@ -40,7 +40,7 @@
 				<section id="sectionMenu">
 					<h3>目次</h3>
 					<ul>
-						<li><a href='#' onClick='Reveal.slide(2); return false;'>Notifications API</a></li>
+						<li><a href='#' onClick='Reveal.slide(2); return false;'>Notifications API</a></li> <!-- sectionのセレクタでいける -->
 						<li><a href='#' onClick='Reveal.slide(3); return false;'>Web Worker</a></li>
 					</ul>
 				</section>
@@ -100,7 +100,7 @@ if (("Notification" in window)) { // Notificationに対応しているかどう�
 						<a href='https://developer.mozilla.org/ja/docs/Web/Guide/Performance/Using_web_workers'>気になる人のための参考リンク</a>
 					</section>
 					<section id='sectionWebWorker2'>
-						<h3>てすと</h3>
+						<h3>テスト</h3>
 						<a href='#' onClick='testWebWorker(); return false;'>てすと</a>
 						<input type="text" id="testWebWorkerText" readonly/>
 					</section>
@@ -129,6 +129,7 @@ onmessage = function(e) {
 		var currentTime = new Date().getTime();
 		var tmpTime = new Date().getTime();
 		while((tmpTime - currentTime) < 1000) {
+			tmpTime = new Date().getTime();
 		}
 		var dif = currentTime - baseTime;
 		postMessage(dif);
@@ -168,6 +169,9 @@ onmessage = function(e) {
 						<h3>力尽きた</h3>
 					</section>
 				</section>
+				<section>
+					<h1>おわり</h1>
+				</section>
 			</div>
 
 		</div>
@@ -206,6 +210,7 @@ onmessage = function(e) {
 					{ src: 'public/plugin/notes/notes.js', async: true }
 				]
 			});
+
 			var testWorker = null;
 
 			function startTimer() {
